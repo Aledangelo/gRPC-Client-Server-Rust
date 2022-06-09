@@ -1,3 +1,4 @@
 master/target/
 server/target/
+server/Dockerfile
 client/target/
