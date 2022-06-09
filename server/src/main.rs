@@ -15,11 +15,13 @@ use servente::{
     GetDataResponse
 };
 
+use std::net::SocketAddr;
+use std::process::exit;
+
 mod servente {
     include!("servente.rs");
 
-    pub(crate) const FILE_DESCRIPTOR_SET: &[u8] =
-        tonic::include_file_descriptor_set!("greeter_descriptor");
+    pub(crate) const FILE_DESCRIPTOR_SET: &[u8] = tonic::include_file_descriptor_set!("greeter_descriptor");
 }
 
 #[derive(Default)]
@@ -32,7 +34,11 @@ impl Servente for ServernteImpl {
         let data = request.into_inner();
         let a: i32 = data.a;
         let b: i32 = data.b;
-        
+
+        if a == -1 && b == -1 {
+            exit(0);
+        }
+
         let response = GetDataResponse {
             res: a*b
         };
@@ -42,7 +48,7 @@ impl Servente for ServernteImpl {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:50051".parse().unwrap();
+    let addr: SocketAddr = "0.0.0.0:50051".parse().unwrap();
     let servente = ServernteImpl::default();
 
     let reflection_service = tonic_reflection::server::Builder::configure()
@@ -50,7 +56,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build()
         .unwrap();
 
-    println!("Server listening on: {:?}", addr);    
+    println!("Server listening on: {:?}", addr);
     Server::builder().add_service(ServenteServer::new(servente)).add_service(reflection_service).serve(addr).await?;
     
     Ok(())

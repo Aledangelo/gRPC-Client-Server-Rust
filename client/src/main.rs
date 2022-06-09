@@ -21,7 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         print!("Sending => a: {}, b:{} - ", req_a, req_b);
         
         let request = Request::new(GetDataRequest {
-            id: String::from("ciccio").into(),
+            id: String::from("threa").into(),
             a: req_a.into(),
             b: req_b.into()
         });
