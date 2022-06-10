@@ -41,7 +41,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         b: req_b.into()
     });
 
-    client.get_data(req).await?;
-    exit(0);
-    // Ok(())
+    let _c = match client.get_data(req).await {
+        Ok(_c) => _c,
+        Err(_) => exit(0),
+    };
+
+    Ok(())
 }

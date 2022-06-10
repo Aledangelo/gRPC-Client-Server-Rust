@@ -30,14 +30,19 @@ pub struct ServernteImpl {}
 #[tonic::async_trait]
 impl Servente for ServernteImpl {
     async fn get_data(&self, request: Request<GetDataRequest>) -> Result<Response<GetDataResponse>, Status> {
-        println!("Request from {:?}", request.remote_addr());
+        print!("Request from {:?} ", request.remote_addr());
         let data = request.into_inner();
+        let pid: String = data.id;
         let a: i32 = data.a;
         let b: i32 = data.b;
 
         if a == -1 && b == -1 {
+            println!();
+            println!("Bye");
             exit(0);
         }
+
+        println!("- Client[{}]", pid);
 
         let response = GetDataResponse {
             res: a*b
