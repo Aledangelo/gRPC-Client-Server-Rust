@@ -12,4 +12,4 @@ The serving process, called **Server**, waits to receive messages from a group o
 
 The Server processes the received messages as follows: it assigns the message to a thread, which extracts the pair of values and the PID of the process. Each thread calculates the product of the pair of input values, and has the task of sending the Client a message containing the calculated value, after which the thread ends. When the Server receives the message with the pair of values **{-1, -1}**, it ends.
 
-![alt text](https://raw.githubusercontent.com/rnatella/esercizi_linux/master/images/ambiente_locale/server_multithread/un_primo_esempio_di_server_multithread.png)
+![alt text](https://raw.githubusercontent.com/Aledangelo/gRPC-Client-Server-Rust/main/deployment_diagram.png)
