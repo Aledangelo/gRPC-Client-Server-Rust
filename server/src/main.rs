@@ -33,14 +33,14 @@ pub struct ServernteImpl {}
 impl Servente for ServernteImpl {
     async fn get_data(&self, request: Request<GetDataRequest>) -> Result<Response<GetDataResponse>, Status> {
         print!("Request from {:?} ", request.remote_addr());
-        let reg: Regex = Regex::new("^[0-9]+$").unwrap();
+        
         let data = request.into_inner();
         let pid: String = data.id;
         let a: i32 = data.a;
         let b: i32 = data.b;
 
+        let reg: Regex = Regex::new("^[0-9]+$").unwrap();
         if !reg.is_match(&pid) && !pid.eq("exit") {
-            // panic!("Invalid PID");
             return Err(Status::invalid_argument("Invalid PID"));
         }
 
